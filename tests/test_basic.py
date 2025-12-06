@@ -12,6 +12,8 @@ def test_simple_output():
     code = "5.@"
     interpreter = Befunge93(code)
     result = interpreter.run()
+    print(code)
+    print(f"Ожидается '5 ', получено '{result}'")
     assert result == "5 ", f"Ожидается '5 ', получено '{result}'"
     print("OK")
 
@@ -21,6 +23,8 @@ def test_multiple_numbers():
     code = "52..@"
     interpreter = Befunge93(code)
     result = interpreter.run()
+    print(code)
+    print(f"Ожидается '2 5 ', получено '{result}'")
     assert result == "2 5 ", f"Ожидается '2 5 ', получено '{result}'"
     print("OK")
 
@@ -30,6 +34,8 @@ def test_movement():
     code = ">5.@"
     interpreter = Befunge93(code)
     result = interpreter.run()
+    print(code)
+    print(f"Ожидается '5 ', получено '{result}'")
     assert result == "5 ", f"Ожидается '5 ', получено '{result}'"
     print("OK")
 
