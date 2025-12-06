@@ -5,17 +5,31 @@ import os
 
 sys.path.insert(0, os.path.abspath('.'))
 
-def run_tests():
-    print("Запуск тестов Befunge-93 интерпретатора...\n")
+def run_all_tests():
+    print("="*60)
     
-    import tests.test_basic
-#    import tests.test_arithmetic
-#    import tests.test_logical
+    test_modules = [
+        'tests.test_basic',
+        'tests.test_arithmetic', 
+    ]
     
-    print("\n" + "="*50)
+    for module_name in test_modules:
+        print(f"\nЗапуск {module_name}...")
+        try:
+            __import__(module_name)
+            module = sys.modules[module_name]
+            if hasattr(module, '__name__'):
+                print(f"{module_name} завершен")
+        except Exception as e:
+            print(f"Ошибка в {module_name}: {e}")
+            return False
+    
+    print("\n" + "="*60)
     print("Все тесты успешно пройдены!")
-    print("="*50)
+    print("="*60)
+    return True
 
 
 if __name__ == "__main__":
-    run_tests()
+    success = run_all_tests()
+    sys.exit(0 if success else 1)

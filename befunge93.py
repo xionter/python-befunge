@@ -62,23 +62,12 @@ class Befunge93:
         if self.debug:
             print(f"[Шаг {self.step_count}] {message}")
     
-    #def print_state(self):
-    #    print(f"Позиция: ({self.x}, {self.y}), направление: ({self.dx}, {self.dy})")
-    #    print(f"Стек: {self.stack}")
-    #    print(f"Вывод: '{''.join(self.output)}'")
-    #    
     def step(self):
         if not self.running:
             return False
         
         self.step_count += 1
         char = self.get_current_cell()
-        
-        #if self.debug:
-        #    print(f"\n--- Шаг {self.step_count} ---")
-        #    print(f"Позиция: ({self.x}, {self.y}), символ: '{char}'")
-        #    print(f"Направление: ({self.dx}, {self.dy})")
-        #    print(f"Стек до: {self.stack}")
         
         if self.string_mode:
             if char == '"':
