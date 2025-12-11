@@ -10,6 +10,10 @@ def run_all_tests():
     test_files = [
         'tests/test_basic.py',
         'tests/test_arithmetic.py',
+        'tests/test_string.py',
+        'tests/test_flow.py',
+        'tests/test_pg.py',
+        'tests/test_skip.py',
     ]
     
     all_passed = True

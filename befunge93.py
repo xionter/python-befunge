@@ -25,7 +25,9 @@ class Befunge93:
         self.output = []          
         self.debug = debug        
         self.step_count = 0       
-        self.input_buffer = []    
+        self.input_buffer = []
+        self.step_mode = False
+
         
     def get_current_cell(self):
         return self.grid[self.y][self.x]
@@ -103,7 +105,7 @@ class Befunge93:
                 self.dx, self.dy = random.choice(dirs)
                 self.log(f"Случайное направление: ({self.dx}, {self.dy})")
             
-            elif '0' <= char <= '9':
+            elif char.isdigit():
                 self.push(int(char))
                 self.log(f"Добавлено число {char} в стек")
             
@@ -256,13 +258,15 @@ class Befunge93:
             else:
                 self.log(f"Неизвестная команда: '{char}'")
         
-        if char != '#':
-            self.move_pointer()
+        self.move_pointer()
         
         if self.debug:
             print(f"Стек после: {self.stack}")
             print(f"Новая позиция: ({self.x}, {self.y})\n")
         
+        if self.step_mode:
+            return True
+
         return True
     
     def run(self, max_steps=10000):

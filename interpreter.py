@@ -6,30 +6,31 @@ from befunge93 import Befunge93
 
 
 def main():
-    parser = argparse.ArgumentParser()
-    
-    parser.add_argument(
-        "file",
-        help="Файл с программой Befunge (.bf)"
+    parser = argparse.ArgumentParser(
+            prog="befunge",
+            description="Интерпретатор Befunge-93 с пошаговым режимом и дебаггером.",
+            epilog="""
+            Примеры использования:
+            befunge program.bf
+            befunge program.bf -i input.txt
+            befunge program.bf --debug
+            befunge program.bf --step
+            befunge "23*."   # выполнение строки как программы
+
+            Команды дебаггера (--step):
+            Enter   - следующий шаг
+            c       - продолжить выполнение до конца
+            q       - выйти
+            """
     )
-    
-    parser.add_argument(
-        "-d", "--debug",
-        action="store_true",
-        help="Включить режим отладки"
-    )
-    
-    parser.add_argument(
-        "-s", "--steps",
-        type=int,
-        default=10000,
-        help="Максимальное количество шагов (по умолчанию: 10000)"
-    )
-    
-    parser.add_argument(
-        "-i", "--input",
-        help="Файл с входными данными (для команд & и ~)"
-    )
+
+    parser.add_argument("file", help="Файл с программой Befunge (.bf)")
+    parser.add_argument("-d", "--debug", action="store_true", help="Включить режим отладки")
+    parser.add_argument("-s", "--steps", type=int, default=10000,
+                        help="Максимальное количество шагов (по умолчанию: 10000)")
+    parser.add_argument("--step", action="store_true",
+                        help="Пошаговое выполнение (ожидание нажатия клавиши)")
+    parser.add_argument("-i", "--input", help="Файл с входными данными (для команд & и ~)")
     
     args = parser.parse_args()
     
@@ -38,13 +39,39 @@ def main():
             code = f.read()
         
         interpreter = Befunge93(code, debug=args.debug)
-        
+
         if args.input:
             with open(args.input, 'r', encoding='utf-8') as f:
                 input_data = f.read()
-        
-        result = interpreter.run(max_steps=args.steps)
-        
+            interpreter.set_input(input_data)
+
+        if args.step:
+            interpreter.step_mode = True
+
+            while interpreter.running:
+                interpreter.step()
+                
+                print(f"\n[STEP {interpreter.step_count}]")
+                print(f"  pos=({interpreter.x}, {interpreter.y})")
+                print(f"  dir=({interpreter.dx},{interpreter.dy})")
+                print(f"  cmd='{interpreter.get_current_cell()}'")
+                print(f"  stack={interpreter.stack}")
+                print(f"  output='{''.join(interpreter.output)}'")
+                
+                user = input("Enter=next | c=continue | q=quit > ")
+
+                if user.lower() == "q":
+                    break
+                elif user.lower() == "c":
+                    interpreter.step_mode = False
+                    interpreter.run(max_steps=args.steps)
+                    break
+
+            result = ''.join(interpreter.output)
+
+        else:
+            result = interpreter.run(max_steps=args.steps)
+
         print("\nРезультат выполнения:")
         print(result)
         
