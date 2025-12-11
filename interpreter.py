@@ -9,19 +9,18 @@ def main():
     parser = argparse.ArgumentParser(
             prog="befunge",
             description="Интерпретатор Befunge-93 с пошаговым режимом и дебаггером.",
-            epilog="""
-            Примеры использования:
-            befunge program.bf
-            befunge program.bf -i input.txt
-            befunge program.bf --debug
-            befunge program.bf --step
-            befunge "23*."   # выполнение строки как программы
-
-            Команды дебаггера (--step):
-            Enter   - следующий шаг
-            c       - продолжить выполнение до конца
-            q       - выйти
-            """
+            formatter_class=argparse.RawTextHelpFormatter,
+            epilog=(
+                "Примеры:\n"
+                "  python interpreter.py examples/hello.bf\n"
+                "  python interpreter.py -d examples/arith.bf\n"
+                "  python interpreter.py --step examples/loop.bf\n"
+                "  python interpreter.py -i input.txt examples/io.bf\n\n"
+                "Пошаговый режим:\n"
+                "  Enter - следующий шаг\n"
+                "  c     - продолжить выполнение\n"
+                "  q     - выход\n"
+        )
     )
 
     parser.add_argument("file", help="Файл с программой Befunge (.bf)")
