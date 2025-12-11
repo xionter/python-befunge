@@ -13,4 +13,28 @@
 
 ```bash
 python interpreter.py <program.bf>
+```
 
+Просмотр справки:
+
+```bash
+python interpreter.py -h
+```
+
+Пример запуска с отладкой:
+
+```bash
+python interpreter.py --debug examples/hello.bf
+```
+
+Пошаговый режим:
+
+```bash
+python interpreter.py --step examples/hello.bf
+```
+
+Запуск с входными данными:
+
+```bash
+python interpreter.py -i input.txt examples/hello.bf
+```
