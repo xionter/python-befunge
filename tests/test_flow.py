@@ -15,8 +15,6 @@ def test_vertical_if():
         "v>4.@"
     )
 
-    result = Befunge93(code).run()
-    assert result == "4 ", f"Ожидается '4 ', получено '{result}'"
 
     result = Befunge93(code).run()
     assert result == "4 ", f"Ожидается '4 ', получено '{result}'"
